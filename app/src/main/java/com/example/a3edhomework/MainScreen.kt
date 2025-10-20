@@ -36,10 +36,12 @@ data object Horses: TopLevelRoute {
     override val icon = Icons.Default.FavoriteBorder
 }
 
-data class HorseDetails(val horse: HorseUIModel) : Route
+data class HorseDetails(val horseId: String) : Route
+
 @Composable
 fun MainScreen() {
-    val topLevelBackStack = remember {TopLevelBackStack<Route> (Horses)}
+    val topLevelBackStack = remember { TopLevelBackStack<Route>(Horses) }
+
     Scaffold(bottomBar = {
         NavigationBar {
             listOf(Horses, Animals).forEach { route ->
@@ -65,9 +67,10 @@ fun MainScreen() {
                     ContentGreen("Animals") { }
                 }
                 entry<HorseDetails> { detail ->
+                    // ФИКС: передаем только horseId
                     HorseDetailScreen(
-                        horse = detail.horse, // твоя модель HorseUIModel
-                        onBackClick = { topLevelBackStack.removeLast() } // <- лямбда
+                        horseId = detail.horseId,
+                        onBackClick = { topLevelBackStack.removeLast() }
                     )
                 }
             }
