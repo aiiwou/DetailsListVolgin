@@ -42,6 +42,11 @@ android {
 }
 
 dependencies {
+    implementation("com.squareup.retrofit2:retrofit:2.9.0")
+// Use the latest version
+    implementation("com.squareup.retrofit2:converter-gson:2.9.0")
+// Use the latest version for Gson converter
+    implementation("com.google.code.gson:gson:2.9.1")
     implementation("io.coil-kt:coil-compose:2.2.2")
     implementation(libs.androidx.navigation3.ui)
     implementation(libs.androidx.navigation3.runtime)
@@ -56,6 +61,7 @@ dependencies {
     implementation(libs.androidx.compose.ui.graphics)
     implementation(libs.androidx.compose.ui.tooling.preview)
     implementation(libs.androidx.compose.material3)
+    implementation(libs.androidx.room.ktx)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
