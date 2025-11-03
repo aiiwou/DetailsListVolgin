@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.filled.FavoriteBorder
+import androidx.compose.material.icons.filled.Star
 import androidx.compose.material3.Icon
 import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
@@ -20,6 +21,8 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.navigation3.runtime.entryProvider
 import androidx.navigation3.ui.NavDisplay
 import com.example.a3edhomework.horses.presentation.model.HorseUIModel
+import com.example.a3edhomework.horses.presentation.screen.FavoritesScreen
+import com.example.a3edhomework.horses.presentation.screen.FilterScreen
 import com.example.a3edhomework.horses.presentation.screen.HorseDetailScreen
 import com.example.a3edhomework.horses.presentation.screen.HorseListScreen
 import com.example.a3edhomework.navigation.Route
@@ -28,7 +31,7 @@ import com.example.a3edhomework.navigation.TopLevelBackStack
 interface TopLevelRoute: Route {
     val icon: ImageVector
 }
-
+data object FilterSettings : Route
 data object Animals: TopLevelRoute {
     override val icon = Icons.Default.Favorite
 }
@@ -36,6 +39,9 @@ data object Horses: TopLevelRoute {
     override val icon = Icons.Default.FavoriteBorder
 }
 
+data object Favorites: TopLevelRoute {  // ← ДОБАВЬ эту вкладку
+    override val icon = Icons.Default.Star
+}
 data class HorseDetails(val horseId: String) : Route
 
 @Composable
@@ -44,7 +50,7 @@ fun MainScreen() {
 
     Scaffold(bottomBar = {
         NavigationBar {
-            listOf(Horses, Animals).forEach { route ->
+            listOf(Horses, Animals, Favorites).forEach { route ->
                 NavigationBarItem(
                     icon = { Icon(imageVector = route.icon, contentDescription = null) },
                     selected = topLevelBackStack.topLevelKey == route,
@@ -66,10 +72,22 @@ fun MainScreen() {
                 entry<Animals> {
                     ContentGreen("Animals") { }
                 }
+                entry<Favorites> {  // ← ДОБАВЬ entry для Favorites
+                    FavoritesScreen(
+                        onBackClick = { topLevelBackStack.removeLast() },
+                        topLevelBackStack
+                    )
+                }
                 entry<HorseDetails> { detail ->
-                    // ФИКС: передаем только horseId
                     HorseDetailScreen(
                         horseId = detail.horseId,
+                        onBackClick = { topLevelBackStack.removeLast() }
+                    )
+                }
+                entry<FilterSettings> {
+                    FilterScreen(
+                        onApplyFilters = {
+                        },
                         onBackClick = { topLevelBackStack.removeLast() }
                     )
                 }
