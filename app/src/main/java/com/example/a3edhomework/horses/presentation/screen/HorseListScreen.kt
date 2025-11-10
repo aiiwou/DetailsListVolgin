@@ -3,6 +3,7 @@ package com.example.a3edhomework.horses.presentation.screen
 import android.annotation.SuppressLint
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
@@ -10,7 +11,10 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material3.Button
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
@@ -42,46 +46,86 @@ import com.example.a3edhomework.horses.presentation.viewModel.HorsesListViewMode
 import com.example.a3edhomework.navigation.Route
 import com.example.a3edhomework.navigation.TopLevelBackStack
 import androidx.lifecycle.ViewModelProvider
+import org.koin.androidx.compose.koinViewModel
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.FloatingActionButton
+import androidx.compose.material3.Icon
+import androidx.compose.material3.Scaffold
+import androidx.compose.runtime.derivedStateOf
+import androidx.compose.runtime.getValue
+import androidx.compose.ui.draw.drawWithCache
+import androidx.compose.ui.graphics.Color
+import com.example.a3edhomework.FilterSettings
+import com.example.a3edhomework.horses.presentation.domain.cache.BadgeCache
+import org.koin.compose.koinInject
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun HorseListScreen(topLevelBackStack: TopLevelBackStack<Route>) {
-    val viewModel: HorsesListViewModel = viewModel(
-        factory = object : ViewModelProvider.Factory {
-            override fun <T : ViewModel> create(modelClass: Class<T>): T {
-                val repository = HorseRepository()
-                val getHorsesUseCase = GetHorsesUseCase(repository)
-                return HorsesListViewModel(getHorsesUseCase) as T
-            }
-        }
-    )
+    val viewModel: HorsesListViewModel = koinViewModel()
+    val badgeCache: BadgeCache = koinInject()
     val state = viewModel.viewState.collectAsState().value
 
-    when (state) {
-        is HorseListState.Loading -> {
-            Column(
-                modifier = Modifier.fillMaxSize(),
-                horizontalAlignment = Alignment.CenterHorizontally,
-                verticalArrangement = Arrangement.Center
-            ) {
-                CircularProgressIndicator()
-                Text("Загрузка лошадей...", modifier = Modifier.padding(16.dp))
+    val hasActiveFilters by remember {
+        derivedStateOf { badgeCache.getHasActiveFilters() }
+    }
+
+    Scaffold(
+        floatingActionButton = {
+            Box {
+                FloatingActionButton(
+                    onClick = { topLevelBackStack.add(FilterSettings) }
+                ) {
+                    Icon(Icons.Default.Settings, contentDescription = "Фильтры")
+                }
+                if (hasActiveFilters) {
+                    Box(
+                        modifier = Modifier
+                            .size(16.dp)
+                            .clip(CircleShape)
+                            .drawWithCache {
+                                onDrawWithContent {
+                                    drawCircle(
+                                        color = Color.Red,
+                                        radius = size.minDimension / 2
+                                    )
+                                }
+                            }
+                            .align(Alignment.TopEnd)
+                    )
+                }
             }
         }
-        is HorseListState.Success -> {
-            HorseListContent(
-                horses = state.horses,
-                topLevelBackStack = topLevelBackStack
-            )
-        }
-        is HorseListState.Error -> {
-            Column(
-                modifier = Modifier.fillMaxSize(),
-                horizontalAlignment = Alignment.CenterHorizontally,
-                verticalArrangement = Arrangement.Center
-            ) {
-                Text("Ошибка: Сервер долго не отвечает.")
-                Button(onClick = { viewModel.loadHorses() }) {
-                    Text("Повторить")
+    ) { padding ->
+        Column(modifier = Modifier.padding(padding)) {
+            when (state) {
+                is HorseListState.Loading -> {
+                    Column(
+                        modifier = Modifier.fillMaxSize(),
+                        horizontalAlignment = Alignment.CenterHorizontally,
+                        verticalArrangement = Arrangement.Center
+                    ) {
+                        CircularProgressIndicator()
+                        Text("Загрузка лошадей...", modifier = Modifier.padding(16.dp))
+                    }
+                }
+                is HorseListState.Success -> {
+                    HorseListContent(
+                        horses = state.horses,
+                        topLevelBackStack = topLevelBackStack
+                    )
+                }
+                is HorseListState.Error -> {
+                    Column(
+                        modifier = Modifier.fillMaxSize(),
+                        horizontalAlignment = Alignment.CenterHorizontally,
+                        verticalArrangement = Arrangement.Center
+                    ) {
+                        Text("Ошибка: Сервер долго не отвечает.")
+                        Button(onClick = { viewModel.loadHorses() }) {
+                            Text("Повторить")
+                        }
+                    }
                 }
             }
         }
@@ -97,7 +141,6 @@ fun HorseListContent(
         items(horses.size) { index ->
             val horse = horses[index]
             HorseListItem(horse, onHorseClick = {
-
                 topLevelBackStack.add(HorseDetails(horse.id))
             })
         }

@@ -4,6 +4,7 @@ plugins {
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.jetbrains.kotlin.serialization)
     alias(libs.plugins.kotlin.compose)
+    id("com.google.devtools.ksp")
 }
 
 android {
@@ -48,6 +49,14 @@ dependencies {
 // Use the latest version for Gson converter
     implementation("com.google.code.gson:gson:2.9.1")
     implementation("io.coil-kt:coil-compose:2.2.2")
+    implementation("io.insert-koin:koin-android:4.1.1")
+    implementation("io.insert-koin:koin-androidx-compose:4.1.1")
+    implementation("androidx.datastore:datastore-preferences:1.0.0")
+    implementation("androidx.room:room-runtime:2.6.1")
+    implementation("androidx.room:room-ktx:2.6.1")
+    implementation(libs.androidx.compose.runtime)
+    implementation(libs.androidx.compose.ui.text)
+    ksp("androidx.room:room-compiler:2.5.0")
     implementation(libs.androidx.navigation3.ui)
     implementation(libs.androidx.navigation3.runtime)
     implementation(libs.androidx.lifecycle.viewmodel.navigation3)
