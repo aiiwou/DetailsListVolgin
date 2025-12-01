@@ -1,6 +1,6 @@
-package com.example.a3edhomework.horses.presentation.repository
+package com.example.myprofile.repository
 
-import com.example.a3edhomework.horses.presentation.model.UserProfile
+import com.example.myprofile.model.UserProfile
 import kotlinx.coroutines.flow.Flow
 
 interface ProfileRepository {

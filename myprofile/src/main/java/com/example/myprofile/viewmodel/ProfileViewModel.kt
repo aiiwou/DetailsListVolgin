@@ -1,9 +1,10 @@
-package com.example.a3edhomework.horses.presentation.viewModel
+package com.example.myprofile.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.a3edhomework.horses.presentation.model.UserProfile
-import com.example.a3edhomework.horses.presentation.repository.ProfileRepository
+
+import com.example.myprofile.model.UserProfile
+import com.example.myprofile.repository.ProfileRepository
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.stateIn

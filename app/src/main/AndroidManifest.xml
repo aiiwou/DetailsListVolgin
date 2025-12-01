@@ -45,7 +45,7 @@
             </intent-filter>
         </activity>
         <receiver
-            android:name=".horses.presentation.receivers.NotificationReceiver"
+            android:name="com.example.myprofile.receivers.NotificationReceiver"
             android:enabled="true"
             android:exported="false" />
     </application>

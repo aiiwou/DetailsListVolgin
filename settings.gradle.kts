@@ -21,4 +21,4 @@ dependencyResolutionManagement {
 
 rootProject.name = "3edhomework"
 include(":app")
- 
+include(":myprofile")

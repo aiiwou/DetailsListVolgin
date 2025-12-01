@@ -1,4 +1,4 @@
-package com.example.a3edhomework.horses.presentation.screen
+package com.example.myprofile.screen
 
 import android.app.DownloadManager
 import android.content.Context
@@ -33,7 +33,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import coil.compose.rememberAsyncImagePainter
-import com.example.a3edhomework.horses.presentation.viewModel.ProfileViewModel
 import androidx.core.net.toUri
 import org.koin.androidx.compose.koinViewModel
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -45,6 +44,7 @@ import androidx.compose.material3.TopAppBar
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.text.font.FontWeight
+import com.example.myprofile.viewmodel.ProfileViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable

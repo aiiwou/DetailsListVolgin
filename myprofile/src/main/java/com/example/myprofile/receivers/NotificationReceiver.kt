@@ -1,16 +1,12 @@
-package com.example.a3edhomework.horses.presentation.receivers
+package com.example.myprofile.receivers
 
+import android.app.NotificationChannel
+import android.app.NotificationManager
 import android.app.PendingIntent
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
-import com.example.a3edhomework.MainActivity
-import android.app.NotificationChannel
-import android.app.NotificationManager
 import android.os.Build
-import android.util.Log
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.toArgb
 import androidx.core.app.NotificationCompat
 
 class NotificationReceiver : BroadcastReceiver() {
@@ -28,7 +24,9 @@ class NotificationReceiver : BroadcastReceiver() {
 
         createNotificationChannelIfNeeded(notificationManager)
 
-        val openAppIntent = Intent(context, MainActivity::class.java).apply {
+        val packageName = context.packageName
+        val openAppIntent = Intent().apply {
+            setClassName(packageName, "$packageName.MainActivity")
             flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
         }
 

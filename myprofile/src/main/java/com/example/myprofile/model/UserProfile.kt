@@ -1,4 +1,4 @@
-package com.example.a3edhomework.horses.presentation.model
+package com.example.myprofile.model
 
 data class UserProfile(
     val fullName: String = "",
