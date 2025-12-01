@@ -21,15 +21,14 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.navigation3.runtime.entryProvider
 import androidx.navigation3.ui.NavDisplay
-import com.example.a3edhomework.horses.presentation.model.HorseUIModel
-import com.example.a3edhomework.horses.presentation.screen.EditProfileScreen
 import com.example.a3edhomework.horses.presentation.screen.FavoritesScreen
 import com.example.a3edhomework.horses.presentation.screen.FilterScreen
 import com.example.a3edhomework.horses.presentation.screen.HorseDetailScreen
 import com.example.a3edhomework.horses.presentation.screen.HorseListScreen
-import com.example.a3edhomework.horses.presentation.screen.ProfileScreen
 import com.example.a3edhomework.navigation.Route
 import com.example.a3edhomework.navigation.TopLevelBackStack
+import com.example.myprofile.screen.EditProfileScreen
+import com.example.myprofile.screen.ProfileScreen
 
 interface TopLevelRoute: Route {
     val icon: ImageVector

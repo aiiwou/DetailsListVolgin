@@ -1,13 +1,14 @@
-package com.example.a3edhomework.horses.presentation.data
+package com.example.myprofile.data
 
 import android.content.Context
 import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.stringPreferencesKey
 import androidx.datastore.preferences.preferencesDataStore
-import com.example.a3edhomework.horses.presentation.model.UserProfile
-import com.example.a3edhomework.horses.presentation.repository.ProfileRepository
+import com.example.myprofile.model.UserProfile
+import com.example.myprofile.repository.ProfileRepository
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
+import kotlin.text.orEmpty
 
 class ProfileDataStore(private val context: Context) : ProfileRepository {
 

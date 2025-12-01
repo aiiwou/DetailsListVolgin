@@ -1,7 +1,5 @@
-package com.example.a3edhomework.horses.presentation.receivers
+package com.example.myprofile.receivers
 
-import android.Manifest
-import android.annotation.SuppressLint
 import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
@@ -52,7 +50,6 @@ class NotificationScheduler {
                         pendingIntent
                     )
                     return
-                } else {
                 }
             } else {
                 alarmManager.setExactAndAllowWhileIdle(
@@ -71,7 +68,6 @@ class NotificationScheduler {
         } catch (se: SecurityException) {
             Log.e(TAG, "Cannot schedule exact alarm: ${se.message}")
             try {
-                // try safest fallback
                 alarmManager.set(
                     AlarmManager.RTC_WAKEUP,
                     calendar.timeInMillis,
